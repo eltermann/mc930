@@ -4,7 +4,8 @@
 // ======================================================================
 // CORES E TEXTURAS
 
-background{ color rgb < 0.75, 0.80, 0.85 > }
+// background changed to yellow
+background{ color rgb < 0.8, 0.9, 0.06 > }
 
 #declare tx_plastico = 
   texture{
@@ -46,14 +47,14 @@ background{ color rgb < 0.75, 0.80, 0.85 > }
 // Partes da cena:
   
 #declare bolinha = 
-  sphere{ < 0,0,0 >, 0.60 }
+  sphere{ < 1,1,0 >, 0.60 }
  
 #declare bolota = 
-  sphere{ < 0,0,0 >, 1.50 }
+  sphere{ < 1,1,0 >, 1.50 }
  
 #declare bola =
   sphere{
-    < 0.00, 0.00, 0.00 >, raio 
+    < 1.00, 1.00, 1.00 >, raio 
     texture{ tx_plastico }
   }
   
