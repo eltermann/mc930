@@ -10,7 +10,7 @@ background{ color rgb < 100, 100, 100 > }
 #macro bolas(n)
   #if (n > 0)
     union {
-      object { bola translate <n, 0, 0>}
+      object { bola translate <0, 0, n>}
       object { bolas(n - 1) }
     }
   #else
