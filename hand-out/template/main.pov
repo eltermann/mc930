@@ -1,4 +1,6 @@
-// Author: Felipe Eltermann (RA 070803)
+/**
+ * Author: Felipe Eltermann (RA 070803)
+ */
 
 // camera and light source
 #include "camlight.inc"
