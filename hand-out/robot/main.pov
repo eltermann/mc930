@@ -21,7 +21,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 // Robot
 #macro robot(col, pos, siz)
   // {col} = color (rgb vector)
-  // {pos} = position
+  // {pos} = base position (from the beggining of element)
   // {siz} = size
 
   union {
@@ -32,13 +32,33 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
 // Trunk
 #macro trunk(pos, siz)
-  #local p1 = pos + <siz/4, -siz/3, -siz/2>;
-  #local p2 = pos + <-siz/4, siz/3, siz/2>;
-  box {p1, p2}
+  #local p1 = pos + < siz/4, -siz/3, 0 >;
+  #local p2 = pos + < -siz/4, siz/3, siz >;
+
+  #local head_siz = siz/2;
+  #local head_pos = pos + < 0, 0, siz >;
+  union {
+    box { p1, p2 }
+    object { head(head_pos, head_siz) }
+  }
 #end
 
+// Head
+#macro head(pos, siz)
+  #local neck_siz = siz/2;
+
+  #local box_pos = pos + < 0, 0, (2/3)*neck_siz >;
+  #local box_p1 = box_pos + < siz/2, -siz/2, 0 >;
+  #local box_p2 = box_pos + < -siz/2, siz/2, siz >;
+
+  union {
+    // Neck
+    sphere { pos + neck_siz/2, neck_siz/2 }
+    box { box_p1, box_p2 }
+  }
+#end
 
 /**
  * Scene description
  */
-robot(<0.65,0.80,0.95 >, <0,0,0>, 2)
+robot(< 0.65, 0.80, 0.95 >, < 0, 0, 0 >, 2)
