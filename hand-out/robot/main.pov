@@ -9,6 +9,7 @@
 #declare ctr = < 0.00, 0.00, 1.00 >;
 #declare rad = 10.0;
 #declare cav = < 14.00, 7.00, 6.00 >;
+//#declare cav = < 1.00, 0.00, 0.00 >; Frontal view
 #declare dst = 16.0;
 #declare lux = 1.00;
 camlight(ctr, rad, cav, dst, z, lux)
@@ -18,47 +19,62 @@ background { color rgb < 1.00, 1.00, 1.00 > }
  * Elements declaration
  */
 
-// Robot
-#macro robot(col, pos, siz)
-  // {col} = color (rgb vector)
-  // {pos} = base position (from the beggining of element)
-  // {siz} = size
-
-  union {
-    object { trunk(pos, siz) }
-    texture { pigment { color rgb col } finish { diffuse 0.9 ambient 0.1 } }
-  }
-#end
 
 // Trunk
-#macro trunk(pos, siz)
-  #local p1 = pos + < siz/4, -siz/3, 0 >;
-  #local p2 = pos + < -siz/4, siz/3, siz >;
+#macro trunk(pos, hei)
+  // {pos} = position (center of base)
+  // {hei} = height
+  #local p1 = pos + < hei/4, -hei/3, 0 >;
+  #local p2 = pos + < -hei/4, hei/3, hei >;
 
-  #local head_siz = siz/2;
-  #local head_pos = pos + < 0, 0, siz >;
-  union {
-    box { p1, p2 }
-    object { head(head_pos, head_siz) }
-  }
+  box { p1, p2 }
+#end
+
+// Neck
+#macro neck(pos, hei)
+  #local p1 = pos + < hei/2, -hei/2, 0 >;
+  #local p2 = pos + < -hei/2, hei/3, hei >;
+
+  box { p1, p2 }
 #end
 
 // Head
-#macro head(pos, siz)
-  #local neck_siz = siz/2;
+#macro head(pos, hei, rot)
+  #local joint_rad = hei/4;
+  #local joint_ctr = pos + < 0, 0, joint_rad>;
 
-  #local box_pos = pos + < 0, 0, (2/3)*neck_siz >;
-  #local box_p1 = box_pos + < siz/2, -siz/2, 0 >;
-  #local box_p2 = box_pos + < -siz/2, siz/2, siz >;
+  #local p1 = < hei/2, -hei/2, 0 >;
+  #local p2 = < -hei/2, hei/2, hei >;
+  #local box_pos = pos + < 0, 0, (3/4)*joint_rad >;
+  union {
+    sphere { joint_ctr, joint_rad }
+    box { p1, p2 rotate rot translate box_pos }
+  }
+#end
+
+// Robot
+#macro robot(col, pos, siz, hrot)
+  // {col} = color (rgb vector)
+  // {pos} = base position
+  // {siz} = size
+  // {hrot} = head rotation
+
+  #local neck_pos = pos + < 0, 0, siz >;
+  #local neck_hei = siz/4;
+
+  #local head_pos = neck_pos + < 0, 0, neck_hei>;
+  #local head_hei = siz/2;
 
   union {
-    // Neck
-    sphere { pos + neck_siz/2, neck_siz/2 }
-    box { box_p1, box_p2 }
+    object { trunk(pos, siz) }
+    object { neck(neck_pos, neck_hei) }
+    object { head(head_pos, head_hei, hrot) }
+
+    texture { pigment { color rgb col } finish { diffuse 0.9 ambient 0.1 } }
   }
 #end
 
 /**
  * Scene description
  */
-robot(< 0.65, 0.80, 0.95 >, < 0, 0, 0 >, 2)
+robot(< 0.65, 0.80, 0.95 >, < 0, 0, 0 >, 2, < 0, 0, 0>)
