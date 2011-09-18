@@ -77,4 +77,8 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 /**
  * Scene description
  */
-robot(< 0.65, 0.80, 0.95 >, < 0, 0, 0 >, 2, < 0, 0, 0>)
+#declare rob_color = < 0.65, 0.80, 0.95 >;
+#declare rob_pos = < 0, 0, 0 >;
+#declare rob_size = 2;
+#declare rob_head_rotate = < 0, 0, 0>;
+robot(rob_color, rob_pos, rob_size, rob_head_rotate)
