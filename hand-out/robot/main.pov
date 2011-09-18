@@ -135,8 +135,8 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #declare rob_pos = < 0, 0, 0 >;
 #declare rob_size = 2;
 #declare rob_head_rotate = < 0, 0, 0>;
-#declare rob_rig_arm_rotate = < 0, 0, 0>;
+#declare rob_rig_arm_rotate = < 0, -10, 0>;
 #declare rob_lef_arm_rotate = < 0, 0, 0>;
-#declare rob_rig_leg_rotate = < 0, 0, 0>;
-#declare rob_lef_leg_rotate = < 0, 0, 0>;
+#declare rob_rig_leg_rotate = < 0, 5, 0>;
+#declare rob_lef_leg_rotate = < 0, -20, 0>;
 robot(rob_color, rob_pos, rob_size, rob_head_rotate, rob_rig_arm_rotate, rob_lef_arm_rotate, rob_rig_leg_rotate, rob_lef_leg_rotate)
