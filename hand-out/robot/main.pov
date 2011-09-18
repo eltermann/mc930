@@ -59,8 +59,8 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   #local joint1_ctr = pos + < 0, 0, -joint1_rad >;
 
   #local arm1_hei = 5 * wid;
-  #local arm1_p1 = < +wid/2, -wid/2, -arm1_hei>;
-  #local arm1_p2 = < -wid/2, +wid/2, 0>;
+  #local arm1_p1 = < +wid/2, -wid/2, -arm1_hei >;
+  #local arm1_p2 = < -wid/2, +wid/2, 0 >;
   #local arm1_pos = joint1_ctr;
 
   union {
@@ -69,14 +69,33 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   }
 #end
 
+// Leg
+#macro leg(pos, wid, leg1_rot)
+  #local joint1_rad = wid/2;
+  #local joint1_ctr = pos + < 0, 0, -joint1_rad >;
+
+  #local leg1_hei = 6 * wid;
+  #local leg1_p1 = < +wid/2, -wid/2, -leg1_hei >;
+  #local leg1_p2 = < -wid/2, +wid/2, 0 >;
+  #local leg1_pos = joint1_ctr;
+
+  union {
+    sphere { joint1_ctr, joint1_rad }
+    box { leg1_p1, leg1_p2 rotate leg1_rot translate leg1_pos }
+  }
+
+#end
+
 // Robot
-#macro robot(col, pos, siz, hrot, rarot, larot)
+#macro robot(col, pos, siz, hrot, rarot, larot, rlrot, llrot)
   // {col} = color (rgb vector)
   // {pos} = base position
   // {siz} = size
   // {hrot} = head rotation
   // {rarot} = right arm rotation
   // {larot} = left arm rotation
+  // {rlrot} = right leg rotation
+  // {llrot} = left leg rotation
 
   #local neck_pos = pos + < 0, 0, siz >;
   #local neck_hei = siz/4;
@@ -88,7 +107,13 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   #local rig_arm_pos = neck_pos + < 0, -siz/3 -rig_arm_wid/2, 0 >;
 
   #local lef_arm_wid = (1/4)*siz;
-  #local lef_arm_pos = neck_pos - < 0, -siz/3 -rig_arm_wid/2, 0 >;
+  #local lef_arm_pos = neck_pos - < 0, -siz/3 -lef_arm_wid/2, 0 >;
+
+  #local rig_leg_wid = (1/4)*siz;
+  #local rig_leg_pos = pos + < 0, -siz/3 +rig_leg_wid/2, 0 >;
+
+  #local lef_leg_wid = (1/4)*siz;
+  #local lef_leg_pos = pos - < 0, -siz/3 +lef_leg_wid/2, 0 >;
 
   union {
     object { trunk(pos, siz) }
@@ -96,6 +121,8 @@ background { color rgb < 1.00, 1.00, 1.00 > }
     object { head(head_pos, head_hei, hrot) }
     object { arm(rig_arm_pos, rig_arm_wid, rarot) }
     object { arm(lef_arm_pos, lef_arm_wid, larot) }
+    object { leg(rig_leg_pos, rig_leg_wid, rlrot) }
+    object { leg(lef_leg_pos, lef_leg_wid, llrot) }
 
     texture { pigment { color rgb col } finish { diffuse 0.9 ambient 0.1 } }
   }
@@ -110,6 +137,6 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #declare rob_head_rotate = < 0, 0, 0>;
 #declare rob_rig_arm_rotate = < 0, 0, 0>;
 #declare rob_lef_arm_rotate = < 0, 0, 0>;
-robot(rob_color, rob_pos, rob_size, rob_head_rotate, rob_rig_arm_rotate, rob_lef_arm_rotate)
-//robot(rob_color, rob_pos + <0, 3, 0>, rob_size, rob_head_rotate + <20, 0, 0>)
-//robot(rob_color, rob_pos + <0, 6, 0>, rob_size, rob_head_rotate + <0, 20, 0>)
+#declare rob_rig_leg_rotate = < 0, 0, 0>;
+#declare rob_lef_leg_rotate = < 0, 0, 0>;
+robot(rob_color, rob_pos, rob_size, rob_head_rotate, rob_rig_arm_rotate, rob_lef_arm_rotate, rob_rig_leg_rotate, rob_lef_leg_rotate)
