@@ -128,15 +128,107 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   }
 #end
 
+
+/**
+ * Animation Arrays and Macros
+ */
+
+// Number of frames
+#declare frames = 6;
+
+// Time array
+#declare time = array[frames];
+#declare time[0] = 0.00;
+#declare time[1] = 0.20;
+#declare time[2] = 0.40;
+#declare time[3] = 0.60;
+#declare time[4] = 0.80;
+#declare time[5] = 1.00;
+
+// Head rotations
+#declare head_frames = array[frames];
+#declare head_frames[0] = < 0, 0, 0 >;
+#declare head_frames[1] = < 0, 20, 0 >;
+#declare head_frames[2] = < 0, 0, 0 >;
+#declare head_frames[3] = < 0, 0, 30 >;
+#declare head_frames[4] = < 0, 0, 0 >;
+#declare head_frames[5] = < 0, 0, 0 >;
+
+// Right arm rotations
+#declare rig_arm_frames = array[frames];
+#declare rig_arm_frames[0] = < 0, 0, 0 >;
+#declare rig_arm_frames[1] = < 0, -10, 0>;
+#declare rig_arm_frames[2] = < 0, -30, 0 >;
+#declare rig_arm_frames[3] = < 0, -15, 0 >;
+#declare rig_arm_frames[4] = < 0, -7.5, 0 >;
+#declare rig_arm_frames[5] = < 0, 0, 0 >;
+
+// Left arm rotations
+#declare lef_arm_frames = array[frames];
+#declare lef_arm_frames[0] = < 0, 0, 0 >;
+#declare lef_arm_frames[1] = < 0, 0, 0 >;
+#declare lef_arm_frames[2] = < 0, 0, 0 >;
+#declare lef_arm_frames[3] = < 0, 0, 0 >;
+#declare lef_arm_frames[4] = < 0, 0, 0 >;
+#declare lef_arm_frames[5] = < 0, 0, 0 >;
+
+// Right leg rotations
+#declare rig_leg_frames = array[frames];
+#declare rig_leg_frames[0] = < 0, 0, 0 >;
+#declare rig_leg_frames[1] = < 0, 5, 0>;
+#declare rig_leg_frames[2] = < 0, 10, 0 >;
+#declare rig_leg_frames[3] = < 0, 20, 0 >;
+#declare rig_leg_frames[4] = < 0, 10, 0 >;
+#declare rig_leg_frames[5] = < 0, 0, 0 >;
+
+// Left leg rotations
+#declare lef_leg_frames = array[frames];
+#declare lef_leg_frames[0] = < 0, 0, 0 >;
+#declare lef_leg_frames[1] = < 0, -5, 0>;
+#declare lef_leg_frames[2] = < 0, -10, 0 >;
+#declare lef_leg_frames[3] = < 0, -20, 0 >;
+#declare lef_leg_frames[4] = < 0, -10, 0 >;
+#declare lef_leg_frames[5] = < 0, 0, 0 >;
+
+// Interpolates attribute to get value at instant "inst"
+#macro interpol(inst0, val0, inst1, val1, inst)
+  #local ss = (inst - inst0) / (inst1 - inst0);
+  #local rr = 1 - ss;
+  (rr * val0 + ss * val1)
+#end
+
+// Get previous frame
+#macro previous_frame(inst)
+  #local i = 0;
+  #while (i < frames-1)
+    #if ((time[i] <= inst) & (time[i+1] >= inst))
+      #local ret = i;
+    #end
+    #local i = i + 1;
+  #end
+  ret
+#end
+
+// Instantiate robot with interpolated attributes
+#macro robot_dancing(inst)
+  // Attributes that doesn't change on time
+  #local rob_color = < 0.65, 0.80, 0.95 >;
+  #local rob_pos = < 0, 0, 0 >;
+  #local rob_size = 2;
+
+  // Time dependent attributes
+  #local i = previous_frame(inst);
+
+  #local rob_head_rot = interpol(time[i], head_frames[i], time[i+1], head_frames[i+1], inst);
+  #local rob_rig_arm_rot = interpol(time[i], rig_arm_frames[i], time[i+1], rig_arm_frames[i+1], inst);
+  #local rob_lef_arm_rot = interpol(time[i], lef_arm_frames[i], time[i+1], lef_arm_frames[i+1], inst);
+  #local rob_rig_leg_rot = interpol(time[i], rig_leg_frames[i], time[i+1], rig_leg_frames[i+1], inst);
+  #local rob_lef_leg_rot = interpol(time[i], lef_leg_frames[i], time[i+1], lef_leg_frames[i+1], inst);
+
+  robot(rob_color, rob_pos, rob_size, rob_head_rot, rob_rig_arm_rot, rob_lef_arm_rot, rob_rig_leg_rot, rob_lef_leg_rot)
+#end
+
 /**
  * Scene description
  */
-#declare rob_color = < 0.65, 0.80, 0.95 >;
-#declare rob_pos = < 0, 0, 0 >;
-#declare rob_size = 2;
-#declare rob_head_rotate = < 0, 0, 0>;
-#declare rob_rig_arm_rotate = < 0, -10, 0>;
-#declare rob_lef_arm_rotate = < 0, 0, 0>;
-#declare rob_rig_leg_rotate = < 0, 5, 0>;
-#declare rob_lef_leg_rotate = < 0, -20, 0>;
-robot(rob_color, rob_pos, rob_size, rob_head_rotate, rob_rig_arm_rotate, rob_lef_arm_rotate, rob_rig_leg_rotate, rob_lef_leg_rotate)
+object { robot_dancing(clock) }
