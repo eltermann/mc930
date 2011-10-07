@@ -76,7 +76,6 @@ background { color rgb < 1.00, 1.00, 1.00 > }
       box { 
         <-1, 2*n_bits + 1, -0.75>, 
         <+1, 0, -0.75 -0.08> 
-        //color rgb < 0, 0, 0 >
       }
     }
   }
@@ -100,7 +99,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
 // Data array
 #declare data = array[5];
-#declare data[0] = 5;
+#declare data[0] = clock*5 + (1-clock)*0;
 #declare data[1] = 5.5;
 #declare data[2] = 6;
 
@@ -108,7 +107,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 object {
   //bit(0, 1)
   
-  abacus(3, 6, data, 0.5)
+  abacus(3, 6, data, 0)
   translate <0, -7, +3>
 
   texture { 
