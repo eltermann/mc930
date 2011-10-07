@@ -9,7 +9,7 @@
 #declare ctr = < 0.00, 0.00, 1.00 >;
 #declare rad = 10.0;
 //#declare cav = < 14.00, 7.00, 6.00 >;
-#declare cav = < 1.00, 0.00, 0.00 >; //Frontal view
+#declare cav = < cos(clock*2*pi), sin(clock*2*pi), 0.00 >; //Frontal view
 #declare dst = 16.0;
 #declare lux = 1.00;
 camlight(ctr, rad, cav, dst, z, lux)
@@ -99,7 +99,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
 // Data array
 #declare data = array[3];
-#declare data[0] = clock*50 + (1-clock)*0;
+#declare data[0] = clock*50 + (1-clock)*20;
 #declare data[1] = clock*1 + (1-clock)*0;
 #declare data[2] = 6;
 
