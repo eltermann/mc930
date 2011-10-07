@@ -18,6 +18,13 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 // Roulette
 #declare roulette = seed(417);
 
+// Texture Checker
+#declare tx_checker = texture {
+  pigment { checker color rgb < 0.10, 0.32, 0.60 >, color rgb < 1.00, 0.97, 0.90 > }
+  finish{ diffuse 0.9 ambient 0.1 }
+  scale 2.0
+}
+
 // Bit
 #macro bit(value, bug)
   // Check value and set bug, if necessary
@@ -104,12 +111,21 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #declare data[2] = 6;
 
 // Scene description
-object {
-  abacus(3, 6, data, 0)
-  translate <0, -7, +3>
-
-  texture { 
-    pigment { color rgb < 0.65, 0.80, 0.95 > } 
-    finish { diffuse 0.9 ambient 0.1 } 
+union {
+  object {
+    abacus(3, 6, data, 0)
+    translate <0, -7, +3>
+    texture {
+      pigment { color rgb < 0.65, 0.80, 0.95 > }
+      finish { diffuse 0.9 ambient 0.1 }
+    }
   }
+
+  // Floor
+  box{
+    <-20,-20,-1>, <+20,+20,0>
+    texture { tx_checker }
+    translate <0, 0, -2.5>
+  }
+
 }
