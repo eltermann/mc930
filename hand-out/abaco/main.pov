@@ -98,15 +98,13 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #end
 
 // Data array
-#declare data = array[5];
-#declare data[0] = clock*5 + (1-clock)*0;
-#declare data[1] = 5.5;
+#declare data = array[3];
+#declare data[0] = clock*50 + (1-clock)*0;
+#declare data[1] = clock*1 + (1-clock)*0;
 #declare data[2] = 6;
 
 // Scene description
 object {
-  //bit(0, 1)
-  
   abacus(3, 6, data, 0)
   translate <0, -7, +3>
 
