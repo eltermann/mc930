@@ -17,40 +17,51 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
 // Bit
 #macro bit(value, bug)
+  // Check value and set bug, if necessary
+  #if (value < 0)
+    #local bug = 1;
+  #end
+  #if (value > 1)
+    #local bug = 1;
+  #end
+
   #if (bug = 1)
     box { 
       <-0.2, -0.2, +0.2>, 
       <+0.2, +0.2, -0.2> 
-      //color rgb < 1, 0, 0 >
     }
   #else
-    #if (value = 0)
-      #local z_pos = -0.25;
-    #else
-      #local z_pos = +0.25;
-    #end
+    #local z_pos = (value - 0.5) / 2;
     sphere {
       <0, 0, z_pos>, 0.50
-
     }
   #end
 #end
 
 // Row
-#macro row(n_bits, decimal_value)
-  #local i = n_bits;
-
+#macro row(n_bits, decimal_value, prob)
   object {
     union {
       // Row bits
+      #local i = n_bits;
+      #local r = int(decimal_value);
+      #local f = decimal_value - r;
+
       #while (i != 0)
         object {
-          bit(mod(decimal_value, 2), 0)
+          #if (mod(r, 2) = 0)
+            // display fractional value
+            bit(f, 0)
+            #local f = 0;
+          #else
+            bit(1-f, 0)
+          #end
           translate <0, 2*i, 0>
         }
-        #local decimal_value = int(decimal_value/2);
+        #local r = int(r/2);
         #local i = i - 1;
       #end
+
       // Row base
       box { 
         <-1, 2*n_bits + 1, -0.75>, 
@@ -62,13 +73,13 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #end
 
 // Abacus
-#macro abacus(n_rows, n_bits, decimal_values)
+#macro abacus(n_rows, n_bits, decimal_values, prob)
   #local i = 0;
   object {
     union {
       #while (i < n_rows)
         object {
-          row(n_bits, decimal_values[i])
+          row(n_bits, decimal_values[i], prob)
           translate <0, 0, -2.3 * i>
         }
         #local i = i + 1;
@@ -79,15 +90,15 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
 // Data array
 #declare data = array[5];
-#declare data[0] = 23;
-#declare data[1] = 123;
-#declare data[2] = 7;
+#declare data[0] = 5;
+#declare data[1] = 5.5;
+#declare data[2] = 6;
 
 // Scene description
 object {
   //bit(0, 1)
   
-  abacus(3, 6, data)
+  abacus(3, 6, data, 1)
   translate <0, -7, +3>
 
   texture { 
