@@ -15,6 +15,9 @@
 camlight(ctr, rad, cav, dst, z, lux)
 background { color rgb < 1.00, 1.00, 1.00 > }
 
+// Roulette
+#declare roulette = seed(417);
+
 // Bit
 #macro bit(value, bug)
   // Check value and set bug, if necessary
@@ -49,12 +52,19 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 
       #while (i != 0)
         object {
+          // Find out if this bit will be buggy
+          #if (rand(roulette) < prob)
+            #local bug = 1;
+          #else
+            #local bug = 0;
+          #end
+
           #if (mod(r, 2) = 0)
             // display fractional value
-            bit(f, 0)
+            bit(f, bug)
             #local f = 0;
           #else
-            bit(1-f, 0)
+            bit(1-f, bug)
           #end
           translate <0, 2*i, 0>
         }
@@ -98,7 +108,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 object {
   //bit(0, 1)
   
-  abacus(3, 6, data, 1)
+  abacus(3, 6, data, 0.5)
   translate <0, -7, +3>
 
   texture { 
