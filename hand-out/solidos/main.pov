@@ -28,11 +28,15 @@ background { color rgb < 1.00, 1.00, 1.00 > }
     pigment { color rgb < 0.85, 0.95, 1.00 > filter 0.70 }
     finish { diffuse 0.03 reflection 0.25 ambient 0.02 specular 0.25 roughness 0.005 }
   }
+#declare tx_fosca =
+  texture{
+    pigment{ color rgb < 1.00, 0.80, 0.10 > }
+    finish{ diffuse 0.9 ambient 0.1 }
+  }
 
 
-#macro dodecaedro()
-  #local phi = (sqrt(5)-1)/2;
-  #local dist = 1;
+#macro dodecaedro(dist)
+  #local phi = (sqrt(5)+1)/2;
   intersection {
     // <0 , +-phi, +-1>
     plane { < +0, +phi, +1> dist }
@@ -54,8 +58,7 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   }
 #end
 
-#macro octaedro()
-  #local dist = 1;
+#macro octaedro(dist)
   intersection {
     plane { < +1, +1, +1> dist }
     plane { < +1, +1, -1> dist }
@@ -68,12 +71,26 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   }
 #end
 
+#macro icosaedro(dist)
+  #local fator = 1.066; // valor empirico
+  intersection {
+    object {
+      dodecaedro(dist*fator)
+      texture { tx_fosca }
+    }
+    object {
+      octaedro(dist)
+      texture { tx_fosca }
+    }
+  }
+#end
+
 // Scene description
 union {
   object {
-    //dodecaedro()
-    octaedro()
-    texture { tx_vidro }
+    //dodecaedro(1)
+    //octaedro(1)
+    icosaedro(1)
   }
 
   // Floor
