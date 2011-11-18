@@ -7,7 +7,7 @@
  */
 #include "camlight.inc"
 #declare ctr = < 0.00, 0.00, 1.00 >;
-#declare rad = 12.0;
+#declare rad = 22.0;
 #declare cav = < 14.00, 7.00, 6.00 >;
 //#declare cav = < 1.00, 0.00, 0.00 >; //Frontal view
 #declare dst = 16.0;
@@ -99,9 +99,10 @@ background { color rgb < 1.00, 1.00, 1.00 > }
   }
 #end
 
-#declare M = 8;
-#declare MM = 2 * M;
-#declare y_values = array[MM];
+#declare M = 4;
+#declare arr_len = 16;
+
+#declare y_values = array[arr_len];
 #declare y_values[0] = <-4, 0, 2>;
 #declare y_values[1] = <6, 8, -3>;
 #declare y_values[2] = <5, -5, 0>;
@@ -109,7 +110,8 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #declare y_values[4] = <-4, 7, 5>;
 #declare y_values[5] = <2, 8, 5>;
 #declare y_values[6] = <0, 5, 9>;
-#declare y_values[7] = <-2, 1, 3>;
+#declare y_values[7] = <4, 2, -1>;
+
 #declare y_values[8] = <9, -3, 4>;
 #declare y_values[9] = <5, 4, 0>;
 #declare y_values[10] = <-5, 0, 5>;
@@ -117,12 +119,33 @@ background { color rgb < 1.00, 1.00, 1.00 > }
 #declare y_values[12] = <1, 7, -5>;
 #declare y_values[13] = <3, -8, 5>;
 #declare y_values[14] = <0, 2, -3>;
-#declare y_values[15] = <4, 2, -1>;
+#declare y_values[15] = <1, 2, -1>;
+
+#declare tex = 
+  texture {
+    pigment{ color rgb < 0.10, 0.80, 1.00 > }
+    finish{ diffuse 0.8 ambient 0.1 specular 0.5 roughness 0.005 }
+  }
+
+#macro main()
+  #local rad = 0.05;
+
+  union {
+    object { complex_curve(0, <0, 1, 0.5>, <0, 1, 0.5>, y_values, 10, M, 3000)
+      translate <0, 4, 0>
+    }
+
+    object { 
+      retalho(y_values[0], y_values[1], y_values[2], y_values[3], y_values[4], y_values[5], y_values[6], y_values[7], y_values[8], y_values[9], y_values[10], y_values[11], y_values[12], y_values[13], y_values[14], y_values[15], rad, tex, tex) 
+      translate <0, -4, 0>
+    }
+  }
+#end
 
 /**
  * Scene description
  */
 union {
   object { eixos(7.00) }
-  object { complex_curve(0, <0, 1, 0.5>, <0, 1, 0.5>, y_values, 10, M, 3000) }
+  object { main() }
 }
