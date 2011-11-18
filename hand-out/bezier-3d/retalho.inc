@@ -39,30 +39,30 @@ union{
  sphere{p43,R texture{txg}}
  sphere{p44,R texture{txg}}
 
- retalho_barra(p11,p12,r, txg}
- retalho_barra(p12,p13,r, txg}
- retalho_barra(p13,p14,r, txg}
- retalho_barra(p11,p21,r, txg}
- retalho_barra(p12,p22,r, txg}
- retalho_barra(p13,p23,r, txg}
- retalho_barra(p14,p24,r, txg}
- retalho_barra(p21,p22,r, txg}
- retalho_barra(p22,p23,r, txg}
- retalho_barra(p23,p24,r, txg}
- retalho_barra(p21,p31,r, txg}
- retalho_barra(p22,p32,r, txg}
- retalho_barra(p23,p33,r, txg}
- retalho_barra(p24,p34,r, txg}
- retalho_barra(p31,p32,r, txg}
- retalho_barra(p32,p33,r, txg}
- retalho_barra(p33,p34,r, txg}
- retalho_barra(p31,p41,r, txg}
- retalho_barra(p32,p42,r, txg}
- retalho_barra(p33,p43,r, txg}
- retalho_barra(p34,p44,r, txg}
- retalho_barra(p41,p42,r, txg}
- retalho_barra(p42,p43,r, txg}
- retalho_barra(p43,p44,r, txg}
+ retalho_barra(p11,p12,r, txg)
+ retalho_barra(p12,p13,r, txg)
+ retalho_barra(p13,p14,r, txg)
+ retalho_barra(p11,p21,r, txg)
+ retalho_barra(p12,p22,r, txg)
+ retalho_barra(p13,p23,r, txg)
+ retalho_barra(p14,p24,r, txg)
+ retalho_barra(p21,p22,r, txg)
+ retalho_barra(p22,p23,r, txg)
+ retalho_barra(p23,p24,r, txg)
+ retalho_barra(p21,p31,r, txg)
+ retalho_barra(p22,p32,r, txg)
+ retalho_barra(p23,p33,r, txg)
+ retalho_barra(p24,p34,r, txg)
+ retalho_barra(p31,p32,r, txg)
+ retalho_barra(p32,p33,r, txg)
+ retalho_barra(p33,p34,r, txg)
+ retalho_barra(p31,p41,r, txg)
+ retalho_barra(p32,p42,r, txg)
+ retalho_barra(p33,p43,r, txg)
+ retalho_barra(p34,p44,r, txg)
+ retalho_barra(p41,p42,r, txg)
+ retalho_barra(p42,p43,r, txg)
+ retalho_barra(p43,p44,r, txg)
 }
 #end
 

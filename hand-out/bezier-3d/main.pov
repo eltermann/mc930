@@ -15,6 +15,7 @@
 camlight(ctr, rad, cav, dst, z, lux)
 background { color rgb < 1.00, 1.00, 1.00 > }
 #include "eixos.inc"
+#include "retalho.inc"
 
 /**
  * Interpol
